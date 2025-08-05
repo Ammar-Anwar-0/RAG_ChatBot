@@ -52,7 +52,7 @@ def retrieve_and_answer(query):
         relevant_contexts = [
             doc.page_content
             for doc, score in results
-            if score >= 0.65
+            if score < 0.45
         ]
 
         if relevant_contexts:
