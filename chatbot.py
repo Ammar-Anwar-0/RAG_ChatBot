@@ -1,7 +1,8 @@
 import os
 from dotenv import load_dotenv
 import streamlit as st
-from langchain_community.vectorstores import Chroma
+#from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.schema import Document
 from langchain.text_splitter import CharacterTextSplitter
@@ -67,11 +68,19 @@ def load_documents(data_path="data"):
     return docs
 
 # Prepare vector store
+# def create_vector_store():
+#     raw_docs = load_documents()
+#     text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+#     split_docs = text_splitter.split_documents(raw_docs)
+#     return Chroma.from_documents(split_docs, embeddings)
+
+
+# Vector Store
 def create_vector_store():
     raw_docs = load_documents()
     text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     split_docs = text_splitter.split_documents(raw_docs)
-    return Chroma.from_documents(split_docs, embeddings)
+    return FAISS.from_documents(split_docs, embeddings)
 
 # Initialize
 vector_store = create_vector_store()
@@ -203,4 +212,5 @@ query = st.text_input("Ask me something...")
 
 if query:
     st.write(retrieve_and_answer(query))
+
 
