@@ -19,6 +19,7 @@ coloredlogs==15.0.1
 dataclasses-json==0.6.7
 distro==1.9.0
 durationpy==0.10
+faiss-cpu==1.11.0
 filelock==3.18.0
 flatbuffers==25.2.10
 frozenlist==1.7.0
@@ -140,3 +141,4 @@ websockets==15.0.1
 yarl==1.20.1
 zipp==3.23.0
 zstandard==0.23.0
+
