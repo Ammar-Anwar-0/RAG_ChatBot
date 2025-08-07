@@ -14,8 +14,12 @@
 
 ## Project Structure
 |- chatbot.py                          # Rag Logic + Prompting + SteamlitUI
+
 |- data          
+    |
     |- amazon-service-datalog-dg.pdf   # Your PDF / Text File
+
 |- .env                                # store your GROQ_API_Key here (WARNING: Never make this public)
+
 |- requirements.txt                    # All your dependencies (run command: pip freeze > requirements.txt
 #### You can optimize the structure by adding a main.py file for Streamlit UI.
