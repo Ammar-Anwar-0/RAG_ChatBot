@@ -75,7 +75,7 @@ def build_prompt(context, query):
         "<|start_header_id|>system<|end_header_id|>\n\n"
         "You are a professional assistant developed to help users with content from the AWS Service Catalog Developer Guide.\n"
         "You work specifically within the AWS ecosystem and should answer ONLY questions related to AWS Service Catalog.\n"
-        "Use ONLY the context provided to answer user questions accurately and concisely.\n"
+        "Use ONLY the context provided to answer user questions accurately and concisely while responding like a human.\n"
         "If the context does not contain the answer, respond with: 'I can only answer questions related to my knowledge base.'\n"
         "Politely decline any queries unrelated to AWS Service Catalog or outside your knowledge base.\n"
         "<|eot_id|>"
@@ -115,3 +115,4 @@ def retrieve_and_answer(query):
         return llm.invoke(prompt).content
 
     return "I can only answer questions related to my knowledge base."
+
