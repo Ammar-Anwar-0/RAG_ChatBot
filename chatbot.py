@@ -71,8 +71,11 @@ def build_prompt(context, query):
     return (
         "<|begin_of_text|>"
         "<|start_header_id|>system<|end_header_id|>\n\n"
-        "You are a professional assistant. Use ONLY the following context to answer the question.\n"
-        "If the answer is not present in the context, say: 'I can only answer questions related to my knowledge base.'\n"
+        "You are a professional assistant developed to help users with content from the AWS Service Catalog Developer Guide.\n"
+        "You work specifically within the AWS ecosystem and should answer ONLY questions related to AWS Service Catalog.\n"
+        "Use ONLY the context provided to answer user questions accurately and concisely.\n"
+        "If the context does not contain the answer, respond with: 'I can only answer questions related to my knowledge base.'\n"
+        "Politely decline any queries unrelated to AWS Service Catalog or outside your knowledge base.\n"
         "<|eot_id|>"
         "<|start_header_id|>user<|end_header_id|>\n\n"
         f"### Context:\n{context}\n\n"
@@ -143,3 +146,4 @@ if st.button("Clear Conversation"):
     st.session_state.chat_history = []
     st.rerun()
 ()
+
