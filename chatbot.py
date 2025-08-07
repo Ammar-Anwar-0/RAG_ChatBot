@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 import streamlit as st
-#from langchain_community.vectorstores import Chroma
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.schema import Document
@@ -63,8 +62,11 @@ def create_vector_store():
     return FAISS.from_documents(split_docs, embeddings)
 
 # Initialize 
-vector_store = create_vector_store()
-llm = ChatGroq(model_name="llama3-70b-8192", api_key=GROQ_API_KEY)
+def initialize_vector_store():
+    return create_vector_store()
+
+def get_llm():
+    return ChatGroq(model_name="llama3-70b-8192", api_key=os.getenv("GROQ_API_KEY"))
 
 # Prompt (Structured Llama 3)
 def build_prompt(context, query):
@@ -86,6 +88,10 @@ def build_prompt(context, query):
 
 # Retrieval + Answering
 def retrieve_and_answer(query):
+
+    vector_store = initialize_vector_store()
+    llm = get_llm()
+
     # Step 1: Retrieve top-k candidates using vector similarity
     results = vector_store.similarity_search_with_score(query, k=10)
 
@@ -109,41 +115,3 @@ def retrieve_and_answer(query):
         return llm.invoke(prompt).content
 
     return "I can only answer questions related to my knowledge base."
-
-
-# Streamlit UI
-st.set_page_config(page_title="AWS Service Catalog Assistant", page_icon=":robot_face:")
-
-# Initialize in-memory chat history
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
-
-st.title("AWS Service Catalog Developer Guide Assistant")
-st.write("Ask me anything about the AWS Service Catalog Developer Guide. "
-         "I will only answer questions based on the uploaded documentation.")
-
-# User input field
-query = st.text_input("Your question:")
-
-# Submit button
-if st.button("Submit Question"):
-    if query.strip():
-        response = retrieve_and_answer(query)
-        st.session_state.chat_history.append({"user": query, "bot": response})
-    else:
-        st.warning("Please enter a question before submitting.")
-
-# Display chat history
-if st.session_state.chat_history:
-    st.subheader("Conversation History")
-    for chat in st.session_state.chat_history:
-        st.markdown(f"**You:** {chat['user']}")
-        st.markdown(f"**Assistant:** {chat['bot']}")
-        st.write("---")
-
-# Clear chat history button
-if st.button("Clear Conversation"):
-    st.session_state.chat_history = []
-    st.rerun()
-()
-
