@@ -15,9 +15,7 @@
 ## Project Structure
 |- chatbot.py                          # Rag Logic + Prompting + SteamlitUI
 
-|- data          
-    |
-    |- amazon-service-datalog-dg.pdf   # Your PDF / Text File
+|- data|- amazon-service-datalog-dg.pdf   # Your PDF / Text File
 
 |- .env                                # store your GROQ_API_Key here (WARNING: Never make this public)
 
