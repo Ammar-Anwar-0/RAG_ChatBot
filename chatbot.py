@@ -69,8 +69,8 @@ def get_llm():
     return ChatGroq(model_name="llama3-70b-8192", api_key=os.getenv("GROQ_API_KEY"))
 
 # Prompt (Structured Llama 3)
-def build_prompt(context, query):
-    return (
+def build_prompt(history, current_query, current_context):
+    prompt = (
         "<|begin_of_text|>"
         "<|start_header_id|>system<|end_header_id|>\n\n"
         "You are a professional assistant developed to help users with content from the AWS Service Catalog Developer Guide.\n"
@@ -79,12 +79,29 @@ def build_prompt(context, query):
         "If the context does not contain the answer, respond with: 'I can only answer questions related to my knowledge base.'\n"
         "Politely decline any queries unrelated to AWS Service Catalog or outside your knowledge base.\n"
         "<|eot_id|>"
+    )
+
+    # Add chat history (previous user & bot turns)
+    for turn in history:
+        prompt += (
+            "<|start_header_id|>user<|end_header_id|>\n\n"
+            f"{turn['user']}\n"
+            "<|eot_id|>"
+            "<|start_header_id|>assistant<|end_header_id|>\n\n"
+            f"{turn['bot']}\n"
+            "<|eot_id|>"
+        )
+
+    # Add current user query with new context
+    prompt += (
         "<|start_header_id|>user<|end_header_id|>\n\n"
-        f"### Context:\n{context}\n\n"
-        f"### Question:\n{query}\n"
+        f"### Context:\n{current_context}\n\n"
+        f"### Question:\n{current_query}\n"
         "<|eot_id|>"
         "<|start_header_id|>assistant<|end_header_id|>"
     )
+
+    return prompt
 
 # Retrieval + Answering
 def retrieve_and_answer(query):
@@ -115,4 +132,5 @@ def retrieve_and_answer(query):
         return llm.invoke(prompt).content
 
     return "I can only answer questions related to my knowledge base."
+
 
