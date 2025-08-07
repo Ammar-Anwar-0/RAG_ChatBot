@@ -105,7 +105,6 @@ def build_prompt(history, current_query, current_context):
 
 # Retrieval + Answering
 def retrieve_and_answer(query):
-
     vector_store = initialize_vector_store()
     llm = get_llm()
 
@@ -127,10 +126,16 @@ def retrieve_and_answer(query):
         for i, doc in enumerate(top_docs):
             print(f"[{i}] {doc.page_content[:200]}...\n")
 
+        # Include session history
+        history = st.session_state.chat_history
+
         # Step 5: Formulate prompt
-        prompt = build_prompt(combined_context, query)
-        return llm.invoke(prompt).content
+        prompt = build_prompt(history, query, combined_context)
+        response = llm.invoke(prompt).content
+        return response
+
 
     return "I can only answer questions related to my knowledge base."
+
 
 
