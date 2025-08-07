@@ -25,7 +25,7 @@ if st.button("Submit Question"):
 # Display chat history
 if st.session_state.chat_history:
     st.subheader("Conversation History")
-    for chat in st.session_state.chat_history:
+    for chat in reversed(st.session_state.chat_history):
         st.markdown(f"**You:** {chat['user']}")
         st.markdown(f"**Assistant:** {chat['bot']}")
         st.write("---")
