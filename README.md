@@ -23,4 +23,4 @@
 #### You can optimize the structure by adding a main.py file for Streamlit UI.
 
 ## Streamlit App
-- [Link](https://ragchatbot-main.streamlit.app/)
+- [App Link](https://ragchatbot-main.streamlit.app/)
